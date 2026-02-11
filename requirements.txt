@@ -7,9 +7,8 @@ jinja2
 python-dotenv
 openai
 google-generativeai
-soundfile
-numpy
 python-jose[cryptography]
 passlib[argon2]
 email-validator
 argon2-cffi
+reportlab
