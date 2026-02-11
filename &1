@@ -1,0 +1,362 @@
+[32mINFO[0m:     Will watch for changes in these directories: ['/Users/nurayselcetin/Desktop/doktor-not-alma']
+[32mINFO[0m:     Uvicorn running on [1mhttp://127.0.0.1:8000[0m (Press CTRL+C to quit)
+[32mINFO[0m:     Started reloader process [[36m[1m46337[0m] using [36m[1mStatReload[0m
+/Users/nurayselcetin/Desktop/doktor-not-alma/app/services/audio.py:5: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[32mINFO[0m:     Started server process [[36m46339[0m]
+[32mINFO[0m:     Waiting for application startup.
+[32mINFO[0m:     Application startup complete.
+[31mERROR[0m:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/uvicorn/protocols/http/h11_impl.py", line 410, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/fastapi/applications.py", line 1135, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/applications.py", line 107, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/fastapi/routing.py", line 115, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/fastapi/routing.py", line 101, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/fastapi/routing.py", line 355, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/fastapi/routing.py", line 245, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/concurrency.py", line 32, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/anyio/to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        func, args, abandon_on_cancel=abandon_on_cancel, limiter=limiter
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/anyio/_backends/_asyncio.py", line 2502, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/anyio/_backends/_asyncio.py", line 986, in run
+    result = context.run(func, *args)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/app/routers/notes.py", line 86, in read_notes_for_patient
+    if note.risks:
+       ^^^^^^^^^^
+AttributeError: 'Note' object has no attribute 'risks'
+[31mERROR[0m:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/uvicorn/protocols/http/h11_impl.py", line 410, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/fastapi/applications.py", line 1135, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/applications.py", line 107, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/fastapi/routing.py", line 115, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/fastapi/routing.py", line 101, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/fastapi/routing.py", line 355, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/fastapi/routing.py", line 245, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/concurrency.py", line 32, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/anyio/to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        func, args, abandon_on_cancel=abandon_on_cancel, limiter=limiter
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/anyio/_backends/_asyncio.py", line 2502, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/anyio/_backends/_asyncio.py", line 986, in run
+    result = context.run(func, *args)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/app/routers/notes.py", line 86, in read_notes_for_patient
+    if note.risks:
+       ^^^^^^^^^^
+AttributeError: 'Note' object has no attribute 'risks'
+[31mERROR[0m:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/uvicorn/protocols/http/h11_impl.py", line 410, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/fastapi/applications.py", line 1135, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/applications.py", line 107, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/fastapi/routing.py", line 115, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/fastapi/routing.py", line 101, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/fastapi/routing.py", line 355, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/fastapi/routing.py", line 245, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/concurrency.py", line 32, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/anyio/to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        func, args, abandon_on_cancel=abandon_on_cancel, limiter=limiter
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/anyio/_backends/_asyncio.py", line 2502, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/anyio/_backends/_asyncio.py", line 986, in run
+    result = context.run(func, *args)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/app/routers/notes.py", line 86, in read_notes_for_patient
+    if note.risks:
+       ^^^^^^^^^^
+AttributeError: 'Note' object has no attribute 'risks'
+[33mWARNING[0m:  StatReload detected changes in 'app/routers/notes.py'. Reloading...
+[32mINFO[0m:     Shutting down
+[32mINFO[0m:     Waiting for application shutdown.
+[32mINFO[0m:     Application shutdown complete.
+[32mINFO[0m:     Finished server process [[36m46339[0m]
+/Users/nurayselcetin/Desktop/doktor-not-alma/app/services/audio.py:5: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[32mINFO[0m:     Started server process [[36m46388[0m]
+[32mINFO[0m:     Waiting for application startup.
+[32mINFO[0m:     Application startup complete.
+[33mWARNING[0m:  StatReload detected changes in 'app/services/ai.py'. Reloading...
+[32mINFO[0m:     Shutting down
+[32mINFO[0m:     Waiting for application shutdown.
+[32mINFO[0m:     Application shutdown complete.
+[32mINFO[0m:     Finished server process [[36m46388[0m]
+/Users/nurayselcetin/Desktop/doktor-not-alma/app/services/audio.py:5: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[32mINFO[0m:     Started server process [[36m46640[0m]
+[32mINFO[0m:     Waiting for application startup.
+[32mINFO[0m:     Application startup complete.
+[33mWARNING[0m:  StatReload detected changes in 'app/routers/notes.py'. Reloading...
+[32mINFO[0m:     Shutting down
+[32mINFO[0m:     Waiting for application shutdown.
+[32mINFO[0m:     Application shutdown complete.
+[32mINFO[0m:     Finished server process [[36m46640[0m]
+/Users/nurayselcetin/Desktop/doktor-not-alma/app/services/audio.py:5: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[32mINFO[0m:     Started server process [[36m47900[0m]
+[32mINFO[0m:     Waiting for application startup.
+[32mINFO[0m:     Application startup complete.
+[33mWARNING[0m:  StatReload detected changes in 'app/routers/notes.py'. Reloading...
+[32mINFO[0m:     Shutting down
+[32mINFO[0m:     Waiting for connections to close. (CTRL+C to force quit)
+[31mERROR[0m:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/uvicorn/protocols/http/h11_impl.py", line 410, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/fastapi/applications.py", line 1135, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/applications.py", line 107, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/fastapi/routing.py", line 115, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/fastapi/routing.py", line 101, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/fastapi/routing.py", line 377, in app
+    content = await serialize_response(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<10 lines>...
+    )
+    ^
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/venv/lib/python3.13/site-packages/fastapi/routing.py", line 215, in serialize_response
+    raise ResponseValidationError(
+    ...<3 lines>...
+    )
+fastapi.exceptions.ResponseValidationError: 8 validation errors:
+  {'type': 'get_attribute_error', 'loc': ('response', 0, 'feedbacks'), 'msg': 'Error extracting attribute: KeyError: "Deferred loader for attribute \'feedbacks\' failed to populate correctly"', 'input': <app.models.Note object at 0x108b71810>, 'ctx': {'error': 'KeyError: "Deferred loader for attribute \'feedbacks\' failed to populate correctly"'}}
+  {'type': 'get_attribute_error', 'loc': ('response', 1, 'feedbacks'), 'msg': 'Error extracting attribute: KeyError: "Deferred loader for attribute \'feedbacks\' failed to populate correctly"', 'input': <app.models.Note object at 0x108c2be30>, 'ctx': {'error': 'KeyError: "Deferred loader for attribute \'feedbacks\' failed to populate correctly"'}}
+  {'type': 'get_attribute_error', 'loc': ('response', 2, 'feedbacks'), 'msg': 'Error extracting attribute: KeyError: "Deferred loader for attribute \'feedbacks\' failed to populate correctly"', 'input': <app.models.Note object at 0x102bef110>, 'ctx': {'error': 'KeyError: "Deferred loader for attribute \'feedbacks\' failed to populate correctly"'}}
+  {'type': 'get_attribute_error', 'loc': ('response', 3, 'feedbacks'), 'msg': 'Error extracting attribute: KeyError: "Deferred loader for attribute \'feedbacks\' failed to populate correctly"', 'input': <app.models.Note object at 0x108a94cd0>, 'ctx': {'error': 'KeyError: "Deferred loader for attribute \'feedbacks\' failed to populate correctly"'}}
+  {'type': 'get_attribute_error', 'loc': ('response', 4, 'feedbacks'), 'msg': 'Error extracting attribute: KeyError: "Deferred loader for attribute \'feedbacks\' failed to populate correctly"', 'input': <app.models.Note object at 0x108c2bed0>, 'ctx': {'error': 'KeyError: "Deferred loader for attribute \'feedbacks\' failed to populate correctly"'}}
+  {'type': 'get_attribute_error', 'loc': ('response', 5, 'feedbacks'), 'msg': 'Error extracting attribute: KeyError: "Deferred loader for attribute \'feedbacks\' failed to populate correctly"', 'input': <app.models.Note object at 0x103789450>, 'ctx': {'error': 'KeyError: "Deferred loader for attribute \'feedbacks\' failed to populate correctly"'}}
+  {'type': 'get_attribute_error', 'loc': ('response', 6, 'feedbacks'), 'msg': 'Error extracting attribute: KeyError: "Deferred loader for attribute \'feedbacks\' failed to populate correctly"', 'input': <app.models.Note object at 0x1033d77f0>, 'ctx': {'error': 'KeyError: "Deferred loader for attribute \'feedbacks\' failed to populate correctly"'}}
+  {'type': 'get_attribute_error', 'loc': ('response', 7, 'feedbacks'), 'msg': 'Error extracting attribute: KeyError: "Deferred loader for attribute \'feedbacks\' failed to populate correctly"', 'input': <app.models.Note object at 0x108c402d0>, 'ctx': {'error': 'KeyError: "Deferred loader for attribute \'feedbacks\' failed to populate correctly"'}}
+
+  File "/Users/nurayselcetin/Desktop/doktor-not-alma/app/routers/notes.py", line 73, in read_notes_for_patient
+    GET /notes/patient/{patient_id}
+[32mINFO[0m:     Waiting for application shutdown.
+[32mINFO[0m:     Application shutdown complete.
+[32mINFO[0m:     Finished server process [[36m47900[0m]
+/Users/nurayselcetin/Desktop/doktor-not-alma/app/services/audio.py:5: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[32mINFO[0m:     Started server process [[36m47947[0m]
+[32mINFO[0m:     Waiting for application startup.
+[32mINFO[0m:     Application startup complete.
