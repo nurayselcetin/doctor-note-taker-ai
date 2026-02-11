@@ -360,3 +360,20 @@ https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/READM
 [32mINFO[0m:     Started server process [[36m47947[0m]
 [32mINFO[0m:     Waiting for application startup.
 [32mINFO[0m:     Application startup complete.
+[33mWARNING[0m:  StatReload detected changes in 'app/database.py'. Reloading...
+[32mINFO[0m:     Shutting down
+[32mINFO[0m:     Waiting for application shutdown.
+[32mINFO[0m:     Application shutdown complete.
+[32mINFO[0m:     Finished server process [[36m47947[0m]
+/Users/nurayselcetin/Desktop/doktor-not-alma/app/services/audio.py:5: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[32mINFO[0m:     Started server process [[36m49151[0m]
+[32mINFO[0m:     Waiting for application startup.
+[32mINFO[0m:     Application startup complete.
