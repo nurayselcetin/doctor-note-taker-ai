@@ -1,0 +1,444 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --c-primary: #4A6C56;
+    --c-primary-light: #6B8E78;
+    --c-secondary: #E0F2FE;
+    --c-accent: #7DD3FC;
+    --c-bg: #FAFAF8;
+    --c-surface: #FFFFFF;
+    --c-text: #2D3630;
+    --c-text-light: #6E7A73;
+    --radius-sm: 12px;
+    --radius-md: 20px;
+    --radius-lg: 32px;
+}
+
+/* Dark Mode Variables */
+html.dark {
+    --c-bg: #020617;
+    /* Slate 950 */
+    --c-surface: #0f172a;
+    /* Slate 900 */
+    --c-text: #ffffff;
+    /* FORCE WHITE */
+    --c-text-light: #e2e8f0;
+    /* Slate 200 */
+}
+
+/* GLOBAL DARK MODE OVERRIDES */
+html.dark body {
+    color: #ffffff !important;
+}
+
+html.dark h1,
+html.dark h2,
+html.dark h3,
+html.dark h4,
+html.dark h5,
+html.dark h6,
+html.dark p,
+html.dark span,
+html.dark li,
+html.dark div,
+html.dark label {
+    color: #ffffff !important;
+}
+
+/* Exempting specific elements that need contrast */
+html.dark button,
+html.dark input,
+html.dark .text-primary,
+html.dark .text-accent,
+html.dark .text-indigo-500,
+html.dark .text-red-500,
+html.dark .text-emerald-900,
+html.dark .text-yellow-800,
+html.dark .text-violet-900 {
+    color: inherit !important;
+    /* Allow specific colors */
+}
+
+/* Force border colors in dark mode */
+html.dark .border-gray-100,
+html.dark .border-gray-200,
+html.dark .border-gray-300 {
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+body {
+    background-color: var(--c-bg);
+    color: var(--c-text);
+    font-family: 'Outfit', sans-serif;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #CBD5E1;
+    border-radius: 10px;
+}
+
+html.dark ::-webkit-scrollbar-thumb {
+    background: #475569;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94A3B8;
+}
+
+/* Animations */
+@keyframes pulse-soft {
+    0% {
+        box-shadow: 0 0 0 0 rgba(125, 211, 252, 0.4);
+    }
+
+    70% {
+        box-shadow: 0 0 0 15px rgba(125, 211, 252, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(125, 211, 252, 0);
+    }
+}
+
+.recording-pulse {
+    animation: pulse-soft 2s infinite;
+}
+
+.note-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(74, 108, 86, 0.05);
+}
+
+html.dark .note-card {
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    background-color: #1e293b !important;
+}
+
+.note-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px -8px rgba(74, 108, 86, 0.1);
+    border-color: rgba(74, 108, 86, 0.2);
+}
+
+html.dark .note-card:hover {
+    box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.5);
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Utilities */
+.bg-bloom-primary {
+    background-color: var(--c-primary);
+}
+
+.text-bloom-primary {
+    color: var(--c-primary);
+}
+
+.bg-bloom-surface {
+    background-color: var(--c-surface);
+}
+
+.text-bloom-text {
+    color: var(--c-text);
+}
+
+/* Backgrounds */
+.bg-stethoscope-theme {
+    background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+html.dark .bg-stethoscope-theme {
+    background: linear-gradient(135deg, #020617 0%, #0f172a 100%) !important;
+}
+
+/* Animations & Shapes */
+.animated-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.shape {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.6;
+    animation: float-animation infinite alternate;
+}
+
+html.dark .shape {
+    opacity: 0.1;
+}
+
+.glass-orb {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.1) 40%, rgba(59, 130, 246, 0.1) 60%, rgba(59, 130, 246, 0.05) 100%);
+    box-shadow: inset -10px -10px 20px rgba(59, 130, 246, 0.1), inset 10px 10px 20px rgba(255, 255, 255, 0.5), 0 20px 40px rgba(59, 130, 246, 0.1);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    z-index: 1;
+    animation: float-orb infinite ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+html.dark .glass-orb {
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05) 40%, rgba(59, 130, 246, 0.1) 60%, rgba(0, 0, 0, 0.3) 100%);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: inset -5px -5px 10px rgba(0, 0, 0, 0.5), inset 5px 5px 10px rgba(255, 255, 255, 0.05), 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.glass-orb i {
+    color: rgba(59, 130, 246, 0.5);
+    /* Blue-500 with opacity for Light Mode visibility */
+    font-size: 0.5em;
+    filter: drop-shadow(0 2px 4px rgba(59, 130, 246, 0.3));
+    transition: color 0.3s ease;
+}
+
+html.dark .glass-orb i {
+    color: rgba(255, 255, 255, 0.9);
+    /* White for Dark Mode */
+}
+
+/* Specific Shapes */
+.shape-1 {
+    top: -10%;
+    left: -10%;
+    width: 50vw;
+    height: 50vw;
+    background: radial-gradient(circle, rgba(56, 189, 248, 0.3) 0%, rgba(224, 242, 254, 0) 70%);
+    animation-duration: 15s;
+}
+
+.shape-2 {
+    bottom: -10%;
+    right: -10%;
+    width: 40vw;
+    height: 40vw;
+    background: radial-gradient(circle, rgba(14, 165, 233, 0.2) 0%, rgba(224, 242, 254, 0) 70%);
+    animation-duration: 20s;
+    animation-delay: -5s;
+}
+
+.shape-3 {
+    top: 40%;
+    left: 40%;
+    width: 30vw;
+    height: 30vw;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(224, 242, 254, 0) 70%);
+    animation-duration: 18s;
+    animation-delay: -2s;
+}
+
+@keyframes float-animation {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+
+    100% {
+        transform: translate(30px, 30px) rotate(10deg);
+    }
+}
+
+@keyframes float-orb {
+
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    33% {
+        transform: translate(20px, -30px);
+    }
+
+    66% {
+        transform: translate(-20px, 20px);
+    }
+}
+
+/* Heartbeat Line */
+.heart-rate {
+    position: absolute;
+    width: 100%;
+    max-width: 1200px;
+    height: 300px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    opacity: 0.4;
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+}
+
+.heart-rate polyline {
+    fill: none;
+    stroke: #ffffff;
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    /* Set dasharray to match approximate path length */
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: heartbeat-dash 2.5s linear infinite;
+}
+
+@keyframes heartbeat-dash {
+    0% {
+        stroke-dashoffset: 1000;
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        stroke-dashoffset: 0;
+        opacity: 0;
+    }
+}
+
+/* EMOJI TOGGLE CSS */
+.theme-toggle {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.theme-toggle input {
+    display: none;
+}
+
+.theme-toggle-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #E2E8F0;
+    border-radius: 30px;
+    transition: background-color 0.3s ease;
+    border: 2px solid #CBD5E1;
+}
+
+html.dark .theme-toggle-bg {
+    background-color: #1E293B;
+    border-color: #334155;
+}
+
+.theme-toggle-handle {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 26px;
+    height: 26px;
+    background-color: #FFF;
+    border-radius: 50%;
+    transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    line-height: 1;
+}
+
+.theme-toggle input:checked~.theme-toggle-handle {
+    transform: translateX(30px);
+}
+
+.theme-toggle-handle::after {
+    content: '☀️';
+    margin-top: 1px;
+}
+
+.theme-toggle input:checked~.theme-toggle-handle::after {
+    content: '🌙';
+}
+
+/* EDUCATION TOGGLE CSS */
+.education-toggle {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.education-toggle input {
+    display: none;
+}
+
+.education-toggle-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #E2E8F0;
+    border-radius: 30px;
+    transition: background-color 0.3s ease;
+    border: 2px solid #CBD5E1;
+}
+
+html.dark .education-toggle-bg {
+    background-color: #1E293B;
+    border-color: #334155;
+}
+
+.education-toggle-handle {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 26px;
+    height: 26px;
+    background-color: #FFF;
+    border-radius: 50%;
+    transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    line-height: 1;
+}
+
+.education-toggle input:checked~.education-toggle-handle {
+    transform: translateX(30px);
+}
+
+.education-toggle-handle::after {
+    content: '👨‍⚕️';
+    /* Doctor */
+    margin-top: 1px;
+}
+
+.education-toggle input:checked~.education-toggle-handle::after {
+    content: '👨‍🎓';
+    /* Student */
+}

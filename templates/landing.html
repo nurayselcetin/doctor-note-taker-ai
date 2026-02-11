@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedNote AI - Doktorlar İçin Akıllı Asistan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        primary: '#38BDF8', // Sky-400
+                        secondary: '#E0F2FE',
+                        accent: '#7DD3FC',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900 font-sans min-h-screen text-white relative">
+
+    <!-- Global Animated Background (EKG) -->
+    <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        <svg class="heart-rate" viewBox="0 0 500 100" preserveAspectRatio="none">
+            <polyline points="0,50 100,50 120,0 140,100 160,50 500,50" />
+        </svg>
+    </div>
+
+    <!-- Content Wrapper (Relative z-10) -->
+    <div class="relative z-10">
+
+        <!-- Navbar -->
+        <nav class="container mx-auto px-6 py-6 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="bg-white/20 backdrop-blur-md text-white p-2.5 rounded-xl border border-white/30">
+                    <i class="fa-solid fa-heart-pulse"></i>
+                </div>
+                <span class="text-xl font-bold text-white tracking-tight">MedNote AI</span>
+            </div>
+            <!-- Links Removed as requested -->
+            <div class="flex gap-4">
+                <a href="/login"
+                    class="px-6 py-2.5 text-white hover:bg-white/10 rounded-full transition-colors font-medium border border-white/20 hover:border-white">Giriş
+                    Yap</a>
+                <a href="/login?mode=register"
+                    class="px-6 py-2.5 bg-white text-blue-700 rounded-full hover:bg-blue-50 transition-all font-bold shadow-lg shadow-black/20 transform hover:-translate-y-0.5">Ücretsiz
+                    Dene</a>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="container mx-auto px-6 py-20 text-center">
+            <div
+                class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 text-white px-5 py-2 rounded-full text-sm font-semibold mb-8">
+                <i class="fa-brands fa-google"></i> Google Gemini ile Güçlendirildi
+            </div>
+
+            <h1 class="text-5xl md:text-7xl font-bold text-white mb-8 leading-tight tracking-tight drop-shadow-sm">
+                Toplantılarınızı <br>
+                <span class="text-white relative inline-block drop-shadow-[0_0_15px_rgba(56,189,248,0.9)]">
+                    AI Not Defteri
+                </span> ile Basitleştirin
+            </h1>
+
+            <p class="text-xl text-blue-100 mb-12 max-w-2xl mx-auto leading-relaxed">
+                Hasta görüşmelerinizi saniyeler içinde kaydedin, transkribe edin ve özetleyin.
+                Modern doktorlar için tasarlanmış yeni nesil dokümantasyon standardı.
+            </p>
+
+            <a href="/login"
+                class="inline-flex items-center gap-3 px-10 py-5 bg-white text-blue-700 rounded-full text-lg font-bold hover:bg-blue-50 transition-all shadow-xl shadow-black/20 hover:shadow-2xl hover:-translate-y-1 group">
+                Hemen Bağlanın
+                <span
+                    class="bg-blue-100 w-8 h-8 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-arrow-right text-sm text-blue-700"></i>
+                </span>
+            </a>
+
+            <!-- Feature Cards (Glassmorphism with Vivid Icons) -->
+            <div class="grid md:grid-cols-4 gap-6 mt-24 text-left">
+
+                <div
+                    class="bg-white/20 backdrop-blur-md p-6 rounded-2xl border border-white/20 hover:bg-white/30 transition-all group shadow-lg shadow-black/10">
+                    <div
+                        class="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center text-white mb-4 text-xl group-hover:scale-110 transition-transform shadow-lg shadow-blue-600/30">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    </div>
+                    <h3 class="font-bold text-white mb-2 text-lg">Akıllı Özetleme</h3>
+                    <p class="text-sm text-blue-100">Önemli noktaları, aksiyonları ve kararları otomatik olarak
+                        vurgular.
+                    </p>
+                </div>
+
+                <div
+                    class="bg-white/20 backdrop-blur-md p-6 rounded-2xl border border-white/20 hover:bg-white/30 transition-all group shadow-lg shadow-black/10">
+                    <div
+                        class="w-12 h-12 bg-yellow-500 rounded-xl flex items-center justify-center text-white mb-4 text-xl group-hover:scale-110 transition-transform shadow-lg shadow-yellow-500/30">
+                        <i class="fa-solid fa-microphone-lines"></i>
+                    </div>
+                    <h3 class="font-bold text-white mb-2 text-lg">Otomatik Transkripsiyon</h3>
+                    <p class="text-sm text-blue-100">Hasta konuşmalarını gerçek zamanlı olarak metne dönüştürür.</p>
+                </div>
+
+                <div
+                    class="bg-white/20 backdrop-blur-md p-6 rounded-2xl border border-white/20 hover:bg-white/30 transition-all group shadow-lg shadow-black/10">
+                    <div
+                        class="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center text-white mb-4 text-xl group-hover:scale-110 transition-transform shadow-lg shadow-orange-500/30">
+                        <i class="fa-solid fa-tags"></i>
+                    </div>
+                    <h3 class="font-bold text-white mb-2 text-lg">Etiketleme & Düzenleme</h3>
+                    <p class="text-sm text-blue-100">Notları bağlam, hasta veya tıbbi duruma göre otomatik organize
+                        eder.
+                    </p>
+                </div>
+
+                <div
+                    class="bg-white/20 backdrop-blur-md p-6 rounded-2xl border border-white/20 hover:bg-white/30 transition-all group shadow-lg shadow-black/10">
+                    <div
+                        class="w-12 h-12 bg-purple-600 rounded-xl flex items-center justify-center text-white mb-4 text-xl group-hover:scale-110 transition-transform shadow-lg shadow-purple-600/30">
+                        <i class="fa-solid fa-language"></i>
+                    </div>
+                    <h3 class="font-bold text-white mb-2 text-lg">Dil Desteği</h3>
+                    <p class="text-sm text-blue-100">Çok dilli transkripsiyon ve çeviri özellikleri sunar.</p>
+                </div>
+
+            </div>
+
+
+
+            <!-- Contact Section (Footer) -->
+            <footer class="border-t border-white/10 mt-12 pt-12 pb-8">
+                <div class="text-center">
+                    <h3 class="text-white font-bold text-lg mb-4">İletişim</h3>
+                    <a href="mailto:cetinnuraysel1@gmail.com"
+                        class="inline-flex items-center gap-2 text-blue-200 hover:text-white transition-colors bg-white/5 px-6 py-3 rounded-xl border border-white/10 hover:bg-white/10">
+                        <i class="fa-solid fa-envelope"></i>
+                        cetinnuraysel1@gmail.com
+                    </a>
+                    <p class="text-blue-300/50 text-xs mt-8">
+                        &copy; 2026 MedNote AI. Tüm hakları saklıdır.
+                    </p>
+                </div>
+            </footer>
+        </section>
+
+    </div>
+</body>
+
+</html>

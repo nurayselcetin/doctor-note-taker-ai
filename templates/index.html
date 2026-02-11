@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedNote AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="/static/css/style.css?v=7" rel="stylesheet">
+    <script src="/static/js/app.js?v=49" defer></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#38BDF8', // Sky-400 (Vibrant Baby Blue)
+                        secondary: '#E0F2FE', // Sky-100
+                        accent: '#7DD3FC', // Sky-300 (Light Baby Blue)
+                        background: '#F0F9FF',
+                        surface: '#FFFFFF',
+                    },
+                    borderRadius: {
+                        'xl': '20px',
+                        '2xl': '32px',
+                    },
+                    boxShadow: {
+                        'soft': '0 10px 40px -10px rgba(56, 189, 248, 0.1)', // Sky shadow
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body
+    class="bg-[#FAFAF8] dark:bg-slate-950 text-[#2D3630] dark:text-gray-100 font-sans h-screen flex p-4 gap-4 overflow-hidden">
+
+    <!-- Floating Sidebar -->
+    <aside
+        class="w-72 bg-white dark:bg-slate-900 rounded-[32px] flex flex-col shadow-soft dark:shadow-none z-10 relative border border-[#E0F2FE] dark:border-slate-800 transition-colors duration-300">
+        <div class="p-8 pb-4">
+            <h1 class="text-2xl font-bold text-primary flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-[#F0F9FF] flex items-center justify-center text-primary">
+                    <i class="fa-solid fa-heart-pulse"></i>
+                </div>
+                MedNote
+            </h1>
+        </div>
+
+        <div class="px-6 py-2">
+            <button onclick="openNewPatientModal()" id="new-patient-btn"
+                class="w-full bg-accent hover:bg-sky-400 text-white font-medium py-3 px-6 rounded-full transition-all shadow-lg shadow-sky-200 flex items-center justify-center gap-2 transform active:scale-95">
+                <i class="fa-solid fa-plus"></i> Yeni Hasta
+            </button>
+            <button onclick="openNewAssistantModal()" id="new-assistant-btn"
+                class="hidden w-full bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-3 px-6 rounded-full transition-all shadow-lg shadow-yellow-200 flex items-center justify-center gap-2 transform active:scale-95">
+                <i class="fa-solid fa-user-plus"></i> Yeni Asistan
+            </button>
+        </div>
+
+        <div class="px-6 py-4">
+            <!-- Mode Tabs (Visible in Assistant Mode) -->
+            <div id="sidebar-tabs" class="hidden px-2 mb-2 flex border-b border-gray-100 dark:border-slate-800">
+                <button onclick="switchSidebarTab('patients')" id="tab-patients"
+                    class="flex-1 pb-2 text-sm font-bold text-primary border-b-2 border-primary transition-all">
+                    Hastalar
+                </button>
+                <button onclick="switchSidebarTab('assistants')" id="tab-assistants"
+                    class="flex-1 pb-2 text-sm font-medium text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-all">
+                    Asistanlar
+                </button>
+            </div>
+
+            <h4 id="sidebar-patients-title" class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 pl-2">
+                Hastalar</h4>
+
+            <!-- Research Input -->
+            <div class="mb-4 relative">
+                <input type="text" id="patient-search-input" placeholder="Ara: İsim, tanı, il..."
+                    class="w-full pl-9 pr-4 py-2 bg-gray-50 dark:bg-slate-800 dark:text-gray-100 border border-gray-200 dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all placeholder-gray-400 dark:placeholder-gray-500">
+                <i class="fa-solid fa-search absolute left-3 top-3 text-gray-400 dark:text-gray-500 text-xs"></i>
+            </div>
+
+            <!-- Dark Mode Toggle -->
+            <div class="mb-4 px-1 flex items-center justify-between">
+                <span class="text-sm font-medium text-gray-600 dark:text-gray-400 flex items-center gap-2">
+                    <i class="fa-solid fa-moon text-indigo-400"></i> <span id="settings-dark-mode">Gece Modu</span>
+                </span>
+                <label class="theme-toggle" title="Gece/Gündüz Modu">
+                    <input type="checkbox" id="dark-mode-toggle" onchange="toggleDarkMode()">
+                    <span class="theme-toggle-bg"></span>
+                    <span class="theme-toggle-handle"></span>
+                </label>
+            </div>
+
+            <!-- Education Toggle -->
+            <div class="mb-4 px-1 flex items-center justify-between">
+                <span class="text-sm font-medium text-gray-600 dark:text-gray-400 flex items-center gap-2">
+                    <i class="fa-solid fa-user-graduate text-indigo-500"></i> <span id="settings-assistant-mode">Asistan
+                        Modu</span>
+                </span>
+                <label class="education-toggle">
+                    <input type="checkbox" id="education-mode-toggle">
+                    <span class="education-toggle-bg"></span>
+                    <span class="education-toggle-handle"></span>
+                </label>
+            </div>
+
+            <!-- AI Case Generator Button (Hidden by default) -->
+            <button id="ai-case-btn" onclick="generateAICase()"
+                class="w-full hidden mb-4 bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white font-bold py-3 px-4 rounded-[20px] shadow-lg shadow-indigo-200 transition-all transform hover:scale-[1.02] flex items-center justify-center gap-2">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <span id="btn-random-case">Rastgele Vaka Oluştur</span>
+            </button>
+
+            <div class="flex-1 overflow-y-auto space-y-1 h-[calc(100vh-500px)]" id="patient-list">
+                <!-- Patient items will be inserted here -->
+            </div>
+            <div class="flex-1 overflow-y-auto space-y-1 h-[calc(100vh-500px)] hidden" id="assistant-list">
+                <!-- Assistant items will be inserted here -->
+            </div>
+        </div>
+
+        <!-- Logout button will be appended here by JS, need to ensure relative positioning works -->
+    </aside>
+
+    <!-- Main Content -->
+    <main
+        class="flex-1 flex flex-col h-full relative bg-white dark:bg-slate-900 rounded-[32px] shadow-soft dark:shadow-none border border-[#E0F2FE] dark:border-slate-800 overflow-hidden transition-colors duration-300">
+
+        <!-- Top Bar -->
+        <header class="h-20 flex items-center justify-between px-8 border-b border-[#F0F9FF] dark:border-slate-800">
+            <div id="current-patient-header" class="hidden">
+                <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100" id="patient-name-display">Hasta Adı</h2>
+                <div class="flex items-center gap-2 mt-1">
+                    <span class="w-2 h-2 rounded-full bg-accent"></span>
+                    <span class="text-sm text-gray-500" id="patient-id-display">ID: #123</span>
+                </div>
+            </div>
+            <div id="no-patient-header" class="text-gray-300 italic flex items-center gap-2">
+                <i class="fa-regular fa-circle-left"></i>
+                <span id="header-no-patient">Soldan bir hasta seçin</span>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <button id="summarize-history-btn" onclick="summarizeHistory()"
+                    class="hidden bg-sky-50 dark:bg-slate-800 text-sky-500 dark:text-sky-400 hover:bg-sky-100 dark:hover:bg-slate-700 px-5 py-2.5 rounded-full text-sm font-semibold transition-colors items-center gap-2">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> <span id="btn-history-summary-text">Geçmişi
+                        Özetle</span>
+                </button>
+
+                <div class="relative">
+                    <select id="language-select" onchange="changeLanguage(this.value)"
+                        class="appearance-none bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-700 dark:text-gray-200 py-2 pl-3 pr-8 rounded-full text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary/50 cursor-pointer hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors">
+                        <option value="tr">TR 🇹🇷</option>
+                        <option value="en">EN 🇬🇧</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
+                        <i class="fa-solid fa-chevron-down text-xs"></i>
+                    </div>
+                </div>
+
+                <!-- Profile Button -->
+                <div class="relative ml-4 z-20">
+                    <button id="profile-btn" onclick="toggleProfileMenu()"
+                        class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary overflow-hidden border-2 border-white shadow-md transition-transform hover:scale-105 cursor-pointer">
+                        <span id="profile-initials">DK</span>
+                        <img id="profile-img" src="" alt="Profile" class="w-full h-full object-cover hidden">
+                    </button>
+
+                    <!-- Profile Dropdown -->
+                    <div id="profile-menu"
+                        class="absolute right-0 mt-3 w-72 bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-gray-100 dark:border-slate-700 hidden overflow-hidden transform origin-top-right transition-all duration-200 opacity-0 scale-95">
+
+                        <!-- Header -->
+                        <div
+                            class="px-6 py-5 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-900 border-b border-gray-100 dark:border-slate-700 flex flex-col items-center">
+                            <div class="relative group cursor-pointer"
+                                onclick="document.getElementById('profile-upload').click()">
+                                <div
+                                    class="w-20 h-20 rounded-full bg-white dark:bg-slate-700 flex items-center justify-center text-primary text-2xl font-bold border-4 border-white dark:border-slate-600 shadow-md overflow-hidden relative">
+                                    <span id="menu-profile-initials">DK</span>
+                                    <img id="menu-profile-img" src="" class="w-full h-full object-cover hidden">
+
+                                    <!-- Overlay for upload -->
+                                    <div
+                                        class="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <i class="fa-solid fa-camera text-white"></i>
+                                    </div>
+                                </div>
+                                <div
+                                    class="absolute bottom-0 right-0 bg-green-500 w-5 h-5 rounded-full border-2 border-white dark:border-slate-900">
+                                </div>
+                            </div>
+                            <input type="file" id="profile-upload" class="hidden" accept="image/*"
+                                onchange="uploadProfileImage(this)">
+
+                            <h3 id="profile-name" class="mt-3 text-lg font-bold text-gray-800 dark:text-gray-100">Doktor
+                                Adı</h3>
+                            <p class="text-xs text-gray-500 dark:text-gray-400" id="profile-email">doktor@email.com</p>
+                        </div>
+
+                        <!-- Stats -->
+                        <div class="grid grid-cols-1 divide-y divide-gray-100 dark:divide-slate-700">
+                            <div
+                                class="px-6 py-4 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-slate-700/50 transition-colors">
+                                <div class="flex items-center gap-3">
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-blue-100 dark:bg-slate-700 text-blue-500 flex items-center justify-center">
+                                        <i class="fa-solid fa-user-injured"></i>
+                                    </div>
+                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Toplam
+                                        Hasta</span>
+                                </div>
+                                <span id="profile-patient-count" class="text-lg font-bold text-primary">0</span>
+                            </div>
+
+                            <!-- Password Change Toggle -->
+                            <div onclick="togglePasswordChange()"
+                                class="px-6 py-4 flex items-center justify-between cursor-pointer hover:bg-gray-50 dark:hover:bg-slate-700/50 transition-colors group">
+                                <div class="flex items-center gap-3">
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-yellow-100 dark:bg-slate-700 text-yellow-500 flex items-center justify-center group-hover:bg-yellow-200 transition-colors">
+                                        <i class="fa-solid fa-key"></i>
+                                    </div>
+                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Şifre
+                                        Değiştir</span>
+                                </div>
+                                <i
+                                    class="fa-solid fa-chevron-right text-gray-400 text-xs group-hover:translate-x-1 transition-transform"></i>
+                            </div>
+
+                            <!-- Logout -->
+                            <div onclick="handleLogout()"
+                                class="px-6 py-4 flex items-center justify-between cursor-pointer hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors group">
+                                <div class="flex items-center gap-3">
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-red-100 dark:bg-slate-700 text-red-500 flex items-center justify-center group-hover:bg-red-200 transition-colors">
+                                        <i class="fa-solid fa-right-from-bracket"></i>
+                                    </div>
+                                    <span class="text-sm font-medium text-red-600 dark:text-red-400">Çıkış Yap</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Password Change Form (Hidden by default) -->
+                        <div id="password-change-form"
+                            class="hidden bg-gray-50 dark:bg-slate-800/50 p-6 border-t border-gray-100 dark:border-slate-700">
+                            <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-4">Yeni Şifre Belirle
+                            </h4>
+                            <div class="space-y-3">
+                                <input type="password" id="current-pass" placeholder="Mevcut Şifre"
+                                    class="w-full px-3 py-2 text-sm rounded-lg border border-gray-200 dark:border-slate-600 dark:text-white dark:bg-slate-700 outline-none focus:border-primary">
+                                <input type="password" id="new-pass" placeholder="Yeni Şifre"
+                                    class="w-full px-3 py-2 text-sm rounded-lg border border-gray-200 dark:border-slate-600 dark:text-white dark:bg-slate-700 outline-none focus:border-primary">
+                                <div class="flex gap-2 pt-2">
+                                    <button onclick="togglePasswordChange()"
+                                        class="flex-1 py-2 text-xs font-bold text-gray-500 hover:bg-gray-200 dark:hover:bg-slate-600 rounded-lg">İptal</button>
+                                    <button onclick="submitPasswordChange()"
+                                        class="flex-1 py-2 text-xs font-bold text-white bg-primary hover:bg-sky-600 rounded-lg shadow-md">Kaydet</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        </header>
+
+        <!-- Scrollable Content -->
+        <div class="flex-1 overflow-y-auto p-8 relative scroll-smooth bg-medical-pattern" id="main-scroll-area">
+
+            <!-- Empty State -->
+            <div id="empty-state"
+                class="bg-stethoscope-theme flex flex-col items-center justify-center h-full relative overflow-hidden">
+
+                <!-- Animated Background -->
+                <div class="animated-background absolute inset-0 z-0">
+                    <div class="shape shape-1"></div>
+                    <div class="shape shape-2"></div>
+                    <div class="shape shape-3"></div>
+
+                    <!-- Glass Orbs -->
+                    <div class="glass-orb"
+                        style="top: 20%; left: 20%; width: 60px; height: 60px; font-size: 60px; animation-duration: 6s;">
+                        <i class="fa-solid fa-syringe"></i>
+                    </div>
+                    <div class="glass-orb"
+                        style="top: 60%; left: 75%; width: 90px; height: 90px; font-size: 90px; animation-duration: 8s; animation-delay: 1s;">
+                        <i class="fa-solid fa-user-graduate"></i>
+                    </div>
+                    <div class="glass-orb"
+                        style="top: 15%; left: 80%; width: 45px; height: 45px; font-size: 45px; animation-duration: 5s; animation-delay: 2s;">
+                        <i class="fa-solid fa-file-medical"></i>
+                    </div>
+                    <div class="glass-orb"
+                        style="bottom: 20%; left: 15%; width: 70px; height: 70px; font-size: 70px; animation-duration: 7s; animation-delay: 3s;">
+                        <i class="fa-solid fa-comment-medical"></i>
+                    </div>
+                    <div class="glass-orb"
+                        style="bottom: 30%; right: 20%; width: 50px; height: 50px; font-size: 50px; animation-duration: 9s; animation-delay: 1.5s;">
+                        <i class="fa-solid fa-pills"></i>
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div class="relative z-10 flex flex-col items-center">
+                    <div
+                        class="w-32 h-32 rounded-full bg-white/20 backdrop-blur-md shadow-lg border border-white/30 flex items-center justify-center mb-6">
+                        <i class="fa-solid fa-heart-pulse text-6xl text-white drop-shadow-md"></i>
+                    </div>
+                    <p id="empty-state-title" class="text-2xl font-bold text-white drop-shadow-sm">Kayıt almak için bir
+                        hasta seçin</p>
+                    <p id="empty-state-subtitle" class="text-sm text-blue-100 mt-2 font-medium">veya yeni bir hasta
+                        kartı oluşturun.</p>
+                </div>
+            </div>
+
+            <!-- Dashboard Content -->
+            <div id="patient-dashboard" class="hidden max-w-5xl mx-auto space-y-8 pb-12">
+
+                <!-- User Welcome / Context -->
+                <div
+                    class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-[24px] p-6 border border-[#E0F2FE] dark:border-slate-700 shadow-sm">
+                    <h3 id="welcome-title" class="text-lg font-semibold text-primary mb-2">MedNote Asistan</h3>
+                    <p id="welcome-subtitle" class="text-gray-600 dark:text-gray-400 text-sm">Görüşme notlarınız
+                        otomatik olarak analiz ediliyor.</p>
+                </div>
+
+                <!-- History Summary Card -->
+                <div id="history-summary-card"
+                    class="bg-white dark:bg-slate-900 rounded-[24px] p-8 shadow-sm border border-[#E0F2FE] dark:border-slate-800 hidden relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-sky-300 to-blue-400"></div>
+                    <h3 class="text-lg font-semibold text-[#2D3630] dark:text-white mb-4 flex items-center gap-3">
+                        <div
+                            class="w-8 h-8 rounded-full bg-sky-50 dark:bg-slate-700 text-primary flex items-center justify-center">
+                            <i class="fa-solid fa-file-medical-alt"></i>
+                        </div>
+                        <span id="history-summary-title">Genel Durum Özeti</span>
+                    </h3>
+                    <div id="history-summary-content"
+                        class="text-gray-600 dark:text-gray-300 leading-relaxed text-base"></div>
+                </div>
+
+                <!-- Risk Alert Area -->
+                <div id="risk-alert-area" class="hidden">
+                    <!-- Risks will be injected here -->
+                </div>
+
+                <!-- Record New Note Area -->
+                <div
+                    class="bg-white dark:bg-slate-900 rounded-[32px] p-1 shadow-sm border border-[#E0F2FE] dark:border-slate-800">
+                    <div class="rounded-[28px] border-2 border-dashed border-[#E0F2FE] dark:border-slate-700 p-10 hover:bg-[#F0F9FF] dark:hover:bg-slate-800/30 transition-colors flex flex-col items-center justify-center"
+                        id="recording-area">
+
+                        <h3 class="text-xl font-bold text-[#2D3630] dark:text-gray-200 mb-8">Yeni Görüşme Kaydı</h3>
+
+                        <div id="recording-controls" class="flex flex-col items-center gap-6">
+                            <button id="record-btn"
+                                class="w-20 h-20 rounded-full bg-accent hover:bg-sky-400 text-white flex items-center justify-center shadow-lg shadow-sky-300/40 transition-all hover:scale-105 active:scale-95">
+                                <i class="fa-solid fa-microphone text-2xl"></i>
+                            </button>
+                            <div class="text-center">
+                                <p class="text-gray-600 font-medium mb-1" id="record-status">Kaydı Başlat</p>
+                                <p class="text-xs text-gray-400 hidden font-mono" id="recording-timer">00:00</p>
+                            </div>
+                        </div>
+
+                        <div id="processing-indicator" class="hidden flex-col items-center gap-4">
+                            <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-primary"></div>
+                            <p class="text-sm text-gray-500 animate-pulse font-medium">Yapay zeka analiz ediyor...</p>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Notes Timeline -->
+                <div class="space-y-6">
+                    <div class="flex items-center justify-between border-b-4 border-primary/20 pb-2 mb-4">
+                        <h3 class="text-xl font-bold text-[#2D3630] dark:text-gray-200">
+                            Geçmiş Görüşmeler
+                        </h3>
+                        <div class="flex bg-gray-100 dark:bg-slate-800 rounded-lg p-1">
+                            <button onclick="sortNotes('desc')"
+                                class="sort-btn active px-3 py-1 text-xs font-bold rounded-md transition-all text-primary bg-white dark:bg-slate-700 shadow-sm"
+                                id="sort-desc-btn" title="Yeniden Eskiye">
+                                <i class="fa-solid fa-arrow-down-short-wide"></i> Yeni
+                            </button>
+                            <button onclick="sortNotes('asc')"
+                                class="sort-btn px-3 py-1 text-xs font-bold rounded-md transition-all text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300"
+                                id="sort-asc-btn" title="Eskiden Yeniye">
+                                <i class="fa-solid fa-arrow-up-wide-short"></i> Eski
+                            </button>
+                        </div>
+                    </div>
+                    <div id="notes-list" class="space-y-6">
+                        <!-- Notes will appear here -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Password Verification Modal -->
+    <div id="password-modal"
+        class="fixed inset-0 bg-[#2D3630]/40 z-50 hidden flex items-center justify-center backdrop-blur-sm transition-opacity">
+        <div
+            class="bg-white dark:bg-slate-900 rounded-[32px] p-8 w-[400px] shadow-2xl transform transition-all scale-100 border-4 border-[#E0F2FE] dark:border-slate-800">
+            <div class="flex flex-col items-center mb-6">
+                <div
+                    class="w-16 h-16 rounded-full bg-red-50 text-red-500 flex items-center justify-center mb-4 text-2xl">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 dark:text-gray-100 text-center">Doktor Doğrulaması</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400 text-center mt-2 px-4">Asistan modundan çıkmak için
+                    lütfen doktor
+                    şifrenizi giriniz.</p>
+            </div>
+
+            <div class="mb-6">
+                <input type="password" id="doctor-password-input"
+                    class="w-full px-6 py-4 bg-gray-50 dark:bg-slate-800 dark:text-white border border-gray-200 dark:border-slate-700 rounded-2xl focus:ring-4 focus:ring-red-100 dark:focus:ring-red-900/30 focus:border-red-400 transition-all outline-none text-gray-800 text-center font-bold tracking-widest placeholder-gray-300"
+                    placeholder="••••••">
+                <p id="password-error" class="text-red-500 text-xs text-center mt-2 font-medium hidden">Hatalı şifre!
+                </p>
+            </div>
+
+            <div class="flex justify-center gap-3">
+                <button onclick="closePasswordModal()"
+                    class="px-6 py-3 text-gray-500 hover:bg-gray-100 rounded-full transition-colors font-medium">İptal</button>
+                <button onclick="verifyPasswordAndDisableAssistant()"
+                    class="px-8 py-3 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors font-medium shadow-lg shadow-red-200">Onayla</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Patient Modal -->
+    <div id="new-patient-modal"
+        class="fixed inset-0 bg-[#2D3630]/40 z-50 hidden flex items-center justify-center backdrop-blur-sm transition-opacity">
+        <div
+            class="bg-[#F0F9FF] dark:bg-slate-900 rounded-[32px] p-8 w-[450px] shadow-2xl transform transition-all scale-100 border-4 border-white dark:border-slate-700 relative overflow-hidden">
+
+            <h3 id="modal-new-patient-title" class="text-2xl font-bold mb-6 text-primary text-center">Hasta Kaydı</h3>
+
+            <!-- Step 1: Input Name -->
+            <div id="np-step-1">
+                <div class="mb-6">
+                    <label id="modal-label-name"
+                        class="block text-xs font-bold text-accent uppercase tracking-widest mb-2 ml-1">Ad Soyad</label>
+                    <input type="text" id="new-patient-name"
+                        class="w-full px-6 py-4 bg-white dark:bg-slate-800 dark:text-white border border-[#BAE6FD] dark:border-slate-600 rounded-2xl focus:ring-4 focus:ring-[#E0F2FE] dark:focus:ring-slate-700 focus:border-accent transition-all outline-none text-gray-700 placeholder-sky-200 dark:placeholder-gray-500"
+                        placeholder="Örn: Ayşe Yılmaz" onkeypress="handleEnterKey(event)">
+                </div>
+                <div class="flex justify-end gap-3">
+                    <button onclick="closeNewPatientModal()"
+                        class="px-6 py-3 text-[#64748B] hover:bg-white/50 dark:hover:bg-slate-800 rounded-full transition-colors font-medium">
+                        <span id="modal-btn-cancel">İptal</span>
+                    </button>
+                    <button onclick="checkPatientName()"
+                        class="px-8 py-3 bg-accent text-white rounded-full hover:bg-sky-400 transition-colors font-medium shadow-lg shadow-sky-200 flex items-center gap-2">
+                        <span id="modal-btn-continue">Devam Et</span> <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 2: Loading -->
+            <div id="np-step-loading" class="hidden flex flex-col items-center justify-center py-8">
+                <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-primary mb-3"></div>
+                <p id="modal-text-checking" class="text-sm text-gray-500">Kayıtlar kontrol ediliyor...</p>
+            </div>
+
+            <!-- Step 3: Duplicates Found -->
+            <div id="np-step-duplicates" class="hidden">
+                <div
+                    class="bg-yellow-50 dark:bg-yellow-900/30 border border-yellow-200 dark:border-yellow-700 rounded-xl p-4 mb-4">
+                    <p id="modal-text-duplicates"
+                        class="text-yellow-800 dark:text-yellow-200 text-sm font-medium flex items-center gap-2">
+                        <i class="fa-solid fa-triangle-exclamation"></i> Bu isimle birden fazla kayıt bulundu.
+                    </p>
+                </div>
+
+                <p id="modal-text-select" class="text-sm text-gray-600 mb-3 ml-1">Doğru hastayı seçin:</p>
+                <div id="duplicate-list" class="space-y-2 mb-6 max-h-[160px] overflow-y-auto pr-1">
+                    <!-- Duplicates will be injected here -->
+                </div>
+
+                <div class="space-y-3 pt-4 border-t border-blue-100 dark:border-slate-700">
+                    <p id="modal-text-other-options"
+                        class="text-xs text-gray-400 font-bold uppercase tracking-wider text-center">Diğer Seçenekler
+                    </p>
+
+                    <button onclick="showCodeInput()"
+                        class="w-full py-3 bg-white dark:bg-slate-800 border border-blue-200 dark:border-slate-600 text-blue-500 dark:text-blue-400 rounded-xl hover:bg-blue-50 dark:hover:bg-slate-700 transition-colors text-sm font-medium">
+                        <i class="fa-solid fa-id-card-clip mr-2"></i> <span id="modal-btn-have-code">Kodum Var</span>
+                    </button>
+
+                    <button onclick="forceCreatePatient()"
+                        class="w-full py-3 bg-accent text-white rounded-xl hover:bg-sky-400 transition-colors text-sm font-medium shadow-md">
+                        <i class="fa-solid fa-plus mr-2"></i> <span id="modal-btn-new-record">Yeni Kayıt Aç</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 4: Code Input -->
+            <div id="np-step-code" class="hidden">
+                <button onclick="backToDuplicates()"
+                    class="text-sm text-gray-400 hover:text-gray-600 mb-4 flex items-center gap-1">
+                    <i class="fa-solid fa-arrow-left"></i> <span id="modal-btn-back">Geri</span>
+                </button>
+                <div class="mb-6">
+                    <label id="modal-label-code"
+                        class="block text-xs font-bold text-accent uppercase tracking-widest mb-2 ml-1">Hasta
+                        Tanımlayıcı Kodu</label>
+                    <input type="text" id="patient-code-input"
+                        class="w-full px-6 py-4 bg-white border border-[#BAE6FD] rounded-2xl focus:ring-4 focus:ring-[#E0F2FE] focus:border-accent transition-all outline-none text-gray-700 placeholder-sky-200 text-center font-mono tracking-widest text-lg"
+                        placeholder="Örn: 123456">
+                </div>
+                <button onclick="selectByCode()"
+                    class="w-full py-3 bg-accent text-white rounded-full hover:bg-sky-400 transition-colors font-medium shadow-lg shadow-sky-200">
+                    <span id="modal-btn-open-file">Hasta Dosyasını Aç</span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast"
+        class="fixed bottom-8 right-8 bg-[#1e293b] text-white px-6 py-4 rounded-2xl shadow-xl transform translate-y-32 opacity-0 transition-all duration-500 z-50 flex items-center gap-3">
+        <div class="w-2 h-2 rounded-full bg-blue-400"></div>
+        <span id="toast-message">İşlem başarılı</span>
+    </div>
+
+
+    <!-- New Assistant Modal -->
+    <div id="new-assistant-modal"
+        class="fixed inset-0 bg-[#2D3630]/40 z-50 hidden flex items-center justify-center backdrop-blur-sm transition-opacity">
+        <div
+            class="bg-white dark:bg-slate-900 rounded-[32px] p-8 w-[400px] shadow-2xl transform transition-all scale-100 border-4 border-yellow-100 dark:border-slate-700">
+            <div class="flex flex-col items-center mb-6">
+                <div
+                    class="w-16 h-16 rounded-full bg-yellow-50 dark:bg-yellow-900/30 text-yellow-500 flex items-center justify-center mb-4 text-2xl">
+                    <i class="fa-solid fa-user-doctor"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 dark:text-gray-100 text-center">Yeni Asistan Ekle</h3>
+            </div>
+
+            <div class="space-y-4 mb-6">
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-1 ml-1">Asistan
+                        Adı</label>
+                    <input type="text" id="new-assistant-name"
+                        class="w-full px-4 py-3 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-yellow-200 dark:focus:ring-yellow-900 focus:border-yellow-400 transition-all dark:text-white"
+                        placeholder="Örn: Dr. Ahmet">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-1 ml-1">Asistan
+                        Şifresi</label>
+                    <input type="password" id="new-assistant-password"
+                        class="w-full px-4 py-3 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-yellow-200 dark:focus:ring-yellow-900 focus:border-yellow-400 transition-all dark:text-white"
+                        placeholder="••••">
+                    <p class="text-[10px] text-gray-400 mt-1 ml-1">Bu şifre, asistanın not eklerken kimliğini
+                        doğrulaması
+                        için kullanılacaktır.</p>
+                </div>
+            </div>
+
+            <div class="flex justify-center gap-3">
+                <button onclick="closeNewAssistantModal()"
+                    class="px-6 py-3 text-gray-500 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-full transition-colors font-medium">İptal</button>
+                <button onclick="createAssistant()"
+                    class="px-8 py-3 bg-yellow-400 hover:bg-yellow-500 text-white rounded-full transition-colors font-medium shadow-lg shadow-yellow-200">Kaydet</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Assistant Action Modal -->
+    <div id="assistant-action-modal"
+        class="fixed inset-0 bg-[#2D3630]/40 z-50 hidden flex items-center justify-center backdrop-blur-sm transition-opacity">
+        <div
+            class="bg-white dark:bg-slate-900 rounded-[32px] p-8 w-[400px] shadow-2xl transform transition-all scale-100 border-4 border-yellow-100 dark:border-slate-700">
+            <div class="flex flex-col items-center mb-6">
+                <div
+                    class="w-16 h-16 rounded-full bg-yellow-50 dark:bg-yellow-900/30 text-yellow-500 flex items-center justify-center mb-4 text-2xl">
+                    <i id="action-modal-icon" class="fa-solid fa-pen"></i>
+                </div>
+                <h3 id="action-modal-title" class="text-xl font-bold text-gray-800 dark:text-gray-100 text-center">
+                    Yorumu
+                    Düzenle</h3>
+            </div>
+
+            <div class="space-y-4 mb-6">
+                <div id="action-modal-content-area">
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-1 ml-1">Yorum
+                        İçeriği</label>
+                    <textarea id="action-modal-feedback"
+                        class="w-full px-4 py-3 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-yellow-200 dark:focus:ring-yellow-900 focus:border-yellow-400 transition-all dark:text-white resize-none h-24"></textarea>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-1 ml-1">Asistan
+                        Şifresi</label>
+                    <input type="password" id="action-modal-password"
+                        class="w-full px-4 py-3 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-yellow-200 dark:focus:ring-yellow-900 focus:border-yellow-400 transition-all dark:text-white"
+                        placeholder="••••">
+                    <div class="flex justify-between items-start mt-1 ml-1">
+                        <p class="text-[10px] text-gray-400">İşlemi onaylamak için asistan şifrenizi giriniz.</p>
+                        <button onclick="showToast('Lütfen doktorunuzdan şifrenizi sıfırlamasını isteyin.', 'info')"
+                            class="text-[10px] text-blue-500 hover:text-blue-600 font-medium">Şifremi Unuttum</button>
+                    </div>
+                </div>
+            </div>
+
+            <input type="hidden" id="action-modal-feedback-id">
+            <input type="hidden" id="action-modal-type">
+
+            <div class="flex justify-center gap-3">
+                <button onclick="closeAssistantActionModal()"
+                    class="px-6 py-3 text-gray-500 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-full transition-colors font-medium">İptal</button>
+                <button onclick="submitAssistantAction()" id="action-modal-submit-btn"
+                    class="px-8 py-3 bg-yellow-400 hover:bg-yellow-500 text-white rounded-full transition-colors font-medium shadow-lg shadow-yellow-200">Kaydet</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

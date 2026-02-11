@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giriş Yap - MedNote AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { primary: '#3B82F6' },
+                    fontFamily: { sans: ['Outfit', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-stethoscope-theme h-screen flex items-center justify-center p-4">
+
+    <!-- Animated 3D Background -->
+    <div class="animated-background">
+        <!-- Floating Gradients -->
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+
+        <!-- Glass Orbs with Logo -->
+        <div class="glass-orb"
+            style="top: 20%; left: 20%; width: 60px; height: 60px; font-size: 60px; animation-duration: 6s;">
+            <i class="fa-solid fa-heart-pulse"></i>
+        </div>
+        <div class="glass-orb"
+            style="top: 70%; left: 80%; width: 100px; height: 100px; font-size: 100px; animation-duration: 8s; animation-delay: 1s;">
+            <i class="fa-solid fa-heart-pulse"></i>
+        </div>
+        <div class="glass-orb"
+            style="top: 15%; left: 85%; width: 40px; height: 40px; font-size: 40px; animation-duration: 5s; animation-delay: 2s;">
+            <i class="fa-solid fa-heart-pulse"></i>
+        </div>
+        <div class="glass-orb"
+            style="bottom: 25%; left: 10%; width: 80px; height: 80px; font-size: 80px; animation-duration: 7s; animation-delay: 3s;">
+            <i class="fa-solid fa-heart-pulse"></i>
+        </div>
+    </div>
+
+    <div
+        class="glass-panel p-8 rounded-[32px] w-full max-w-md shadow-2xl relative overflow-hidden backdrop-blur-xl bg-white/70">
+        <!-- Decorative blobs -->
+        <div
+            class="absolute -top-10 -left-10 w-32 h-32 bg-sky-200 rounded-full blur-3xl opacity-30 pointer-events-none">
+        </div>
+        <div
+            class="absolute -bottom-10 -right-10 w-32 h-32 bg-blue-200 rounded-full blur-3xl opacity-30 pointer-events-none">
+        </div>
+
+        <div class="text-center mb-10 relative z-10">
+            <div
+                class="inline-flex items-center justify-center w-16 h-16 bg-[#F0F9FF] rounded-full text-[#3B82F6] mb-4 text-2xl shadow-sm">
+                <i class="fa-solid fa-heart-pulse"></i>
+            </div>
+            <h2 class="text-3xl font-bold text-[#2D3630]" id="form-title">MedNote</h2>
+            <p class="text-gray-500 text-sm mt-2" id="form-subtitle">Doktor Asistanı Girişi</p>
+        </div>
+
+        <form id="auth-form" class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Kullanıcı Adı</label>
+                <div class="relative">
+                    <i class="fa-solid fa-user absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    <input type="text" id="username" required
+                        class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none">
+                </div>
+            </div>
+
+            <div id="email-field" class="hidden">
+                <label class="block text-sm font-medium text-gray-700 mb-1">E-posta</label>
+                <div class="relative">
+                    <i class="fa-solid fa-envelope absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    <input type="email" id="email"
+                        class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Şifre</label>
+                <div class="relative">
+                    <i class="fa-solid fa-lock absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    <input type="password" id="password" required
+                        class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none">
+                </div>
+            </div>
+
+            <button type="submit"
+                class="w-full bg-primary text-white py-2 rounded-lg hover:bg-blue-600 transition-colors font-medium shadow-lg shadow-blue-200">
+                <span id="submit-btn-text">Giriş Yap</span>
+            </button>
+        </form>
+
+        <div class="mt-6 text-center text-sm">
+            <p class="text-gray-500">
+                <span id="toggle-text">Hesabınız yok mu?</span>
+                <button onclick="toggleMode()" class="text-primary font-semibold hover:underline ml-1"
+                    id="toggle-btn">Kayıt Ol</button>
+            </p>
+        </div>
+
+        <div id="error-msg" class="mt-4 text-center text-red-500 text-sm hidden bg-red-50 p-2 rounded-lg"></div>
+    </div>
+
+    <script>
+        let isLogin = true;
+
+        // Check URL params
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('mode') === 'register') {
+            toggleMode();
+        }
+
+        function toggleMode() {
+            isLogin = !isLogin;
+            const title = document.getElementById('form-title');
+            const subtitle = document.getElementById('form-subtitle');
+            const btnText = document.getElementById('submit-btn-text');
+            const toggleText = document.getElementById('toggle-text');
+            const toggleBtn = document.getElementById('toggle-btn');
+            const emailField = document.getElementById('email-field');
+
+            if (isLogin) {
+                title.innerText = "Doktor Girişi";
+                subtitle.innerText = "Hesabınıza erişmek için bilgilerinizi girin.";
+                btnText.innerText = "Giriş Yap";
+                toggleText.innerText = "Hesabınız yok mu?";
+                toggleBtn.innerText = "Kayıt Ol";
+                emailField.classList.add('hidden');
+            } else {
+                title.innerText = "Hesap Oluştur";
+                subtitle.innerText = "Asistanınızı kullanmaya başlamak için kayıt olun.";
+                btnText.innerText = "Kayıt Ol";
+                toggleText.innerText = "Zaten hesabınız var mı?";
+                toggleBtn.innerText = "Giriş Yap";
+                emailField.classList.remove('hidden');
+            }
+        }
+
+        document.getElementById('auth-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const email = document.getElementById('email').value;
+            const errorDiv = document.getElementById('error-msg');
+
+            errorDiv.classList.add('hidden');
+
+            try {
+                let res;
+                if (isLogin) {
+                    const formData = new URLSearchParams();
+                    formData.append('username', username);
+                    formData.append('password', password);
+
+                    res = await fetch('/auth/token', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        body: formData
+                    });
+                } else {
+                    res = await fetch('/auth/register', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ username, password, email })
+                    });
+                }
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    if (isLogin) {
+                        localStorage.setItem('token', data.access_token);
+                        window.location.href = '/dashboard';
+                    } else {
+                        // Auto login after register? Or just switch mode
+                        alert("Kayıt başarılı! Lütfen giriş yapın.");
+                        location.reload();
+                    }
+                } else {
+                    errorDiv.innerText = data.detail || "Bir hata oluştu.";
+                    errorDiv.classList.remove('hidden');
+                }
+            } catch (err) {
+                errorDiv.innerText = "Bağlantı hatası.";
+                errorDiv.classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+
+</html>
